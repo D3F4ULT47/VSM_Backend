@@ -1,0 +1,16 @@
+{
+  "name": "dev_ui",
+  "version": "1.0.0",
+  "description": "a Video streaming and Managing software",
+  "keywords": [
+    "javascript",
+    "backend"
+  ],
+  "license": "ISC",
+  "author": "Nishchay",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

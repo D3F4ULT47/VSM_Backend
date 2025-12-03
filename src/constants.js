@@ -1,1 +1,2 @@
-export const DB_NAME="VSM-PROJ"
+const DB_NAME="VSM-PROJ"
+export {DB_NAME} 

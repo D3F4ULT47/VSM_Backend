@@ -49,13 +49,12 @@ refreshToken:{
 {Timestamp:true}
 )
 // pre runs right before this model will be getting saved 
-userSchema.pre("save", async function(next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre("save", async function() { //next as a variable
+  if (!this.isModified("password")) return ; // next was returned
 
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
-
-  next();
+  
 });
 
 userSchema.methods.isPasswordCorrect = async function (password) {

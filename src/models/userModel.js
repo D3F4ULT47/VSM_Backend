@@ -17,7 +17,7 @@ email:{
    lowercase:true,
    trim:true,
 },
-fullName:{
+fullname:{
   type:String,
   required:true, 
   trim:true,
@@ -49,19 +49,14 @@ refreshToken:{
 {Timestamp:true}
 )
 // pre runs right before this model will be getting saved 
-userSchema.pre("save",async function(next){
-  try {
-    if (!this.isModified("password")) return next();// if password is not modified dont run
-    const salt = await bcrypt.genSalt(10)
-    const hash = await bcrypt.hash(this.password,salt)
-    this.password = hash;
-    next()
-  } catch (error) {
-    console.log("Error while Hashing",error)
-    next()
-    
-  }
-})
+userSchema.pre("save", async function(next) {
+  if (!this.isModified("password")) return next();
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+
+  next();
+});
 
 userSchema.methods.isPasswordCorrect = async function (password) {
  return await bcrypt.compare(password,this.password)

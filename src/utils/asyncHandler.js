@@ -1,8 +1,9 @@
-const asyncHandler = async(requestHandler) => {
-  (req,res,next)=>{ Promise
-    .resolve(requestHandler(req,res,next))
-    .catch((error)=>(next(error)))
-  }}
+const asyncHandler = (requestHandler) => {
+  return(req,res,next)=>{ 
+    Promise.resolve(requestHandler(req,res,next))
+     .catch((error)=>(next(error)))
+  }
+}
  // it is as simple as  we are passing  an asynchronous function
  // and it can be anything either api call or middleware anything
  // it will be passed into asyncHandler and everytime it will return

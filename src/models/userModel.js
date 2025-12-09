@@ -46,7 +46,7 @@ refreshToken:{
   type:String,
 }
 },
-{Timestamp:true}
+{timestamps:true}
 )
 // pre runs right before this model will be getting saved 
 userSchema.pre("save", async function() { //next as a variable
@@ -61,17 +61,19 @@ userSchema.methods.isPasswordCorrect = async function (password) {
  return await bcrypt.compare(password,this.password)
 }
 userSchema.methods.generateAccessToken = function(){
-  const accessToken = jwt.sign(
+ const accessToken = jwt.sign(
     {
       _id:this._id,
       username:this.username
     }, 
       process.env.ACCESS_TOKEN_SECRET,
     {
-      expiresIn:ACCESS_TOKEN_EXPIRY
+      expiresIn:process.env.ACCESS_TOKEN_EXPIRY
     })
+    return accessToken
 } 
 userSchema.methods.generateRefreshToken = function(){
+  
   const refreshToken = jwt.sign(
     {
       _id:this._id,
@@ -81,5 +83,6 @@ userSchema.methods.generateRefreshToken = function(){
     {
       expiresIn:process.env.REFRESH_TOKEN_EXPIRY
     })
+    return refreshToken
 } 
 export const userModel = mongoose.model("user",userSchema)

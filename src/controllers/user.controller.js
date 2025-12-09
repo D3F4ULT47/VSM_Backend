@@ -4,6 +4,23 @@ import {upload} from"../middlewares/multer.middleware.js"
 import {apiError} from "../utils/apiError.js"
 import {uploadOperation} from "../utils/cloudinary.js"
 import {apiResponse} from "../utils/apiResponse.js"
+import cookieParser from "cookie-parser"
+
+const generateAccessAndRefreshTokens = async(Id)=>{
+  try {
+    const user = await userModel.findById(Id)
+    const accessToken =user.generateAccessToken()
+    const refreshToken =user.generateRefreshToken()
+    user.refreshToken=refreshToken
+    await user.save({ validateBeforeSave: false })
+
+    return {accessToken,refreshToken}
+    
+  } catch (error) {
+   throw new apiError (error.status,"Error while generating the tokens")
+  }
+}
+
 const registerUser = asyncHandler(async(req,res)=>{
  const {username,email,fullname,password} = req.body
  if([username,email,fullname,password].some((field)=>field?.trim==="")){
@@ -35,12 +52,73 @@ const registerUser = asyncHandler(async(req,res)=>{
   if(!createdUser){
     throw new apiError(500,"something went wrong while creating the user")
   }
- 
  return res.status(201).json(
   new apiResponse(200,createdUser,"User registered Successfully")
  )
-
- 
-
 })
-export {registerUser}
+
+const logInUser = asyncHandler(async(req,res)=>{
+  const{email,password}=req.body
+  if(!(email || password)){
+    throw new apiError(400,"Atleast one field is required fields are required")
+   }
+  let existingUser= await userModel.findOne({email})
+  if(existingUser){
+   let validUser= await existingUser.isPasswordCorrect(password)
+    if(!validUser){
+     new apiError(401,"Invalid User Credentials")
+    }   
+    const {accessToken,refreshToken}=await generateAccessAndRefreshTokens(existingUser._id)
+    const loggedInUser= await userModel.findById(existingUser._id).
+    select("-password -refreshToken")
+    const options ={ // After this it can't be changed from frontEnd only from server
+      httpOnly :true,
+      secure:true
+    }
+    return res
+    .status(200)
+    .cookie("accessToken",accessToken,options)
+    .cookie("refreshToken",refreshToken,options)
+    .json(
+      new apiResponse(
+        200,
+        {
+          user:loggedInUser,accessToken,
+          refreshToken,
+        },
+        "User loggedIn Successfully"
+      )
+    )
+  }
+  else  throw new apiError(404,"User not found")
+})
+ 
+const logOutUser = asyncHandler(async(req,res)=>{
+
+ await userModel.findOneAndUpdate(
+   req.user._id,
+    {
+      $set :{
+        refreshToken:undefined
+      }
+    },
+    {
+      new:true
+    }
+  )
+  const options ={ // After this it can't be changed from frontEnd only from server
+    httpOnly :true,
+    secure:true
+  }
+  return res
+  .status(200)
+  .clearCookie("accessToken",options)
+  .clearCookie("refreshTojke",options)
+  .json(new apiResponse(200,{},"User Logged Out"))
+ })
+
+
+export {
+logInUser,
+registerUser,
+logOutUser}

@@ -123,12 +123,12 @@ const refreshAccessToken = asyncHandler(async(req,res)=>{
    if(!incomingRefreshToken){
     throw new apiError(401,"Bad Request")
    }
-   const decodedToken = jwt.verify(incomingRequestToken,process.env.REFRESH_TOKEN_SECRET)
+   const decodedToken = jwt.verify(incomingRefreshToken,process.env.REFRESH_TOKEN_SECRET)
    const requestingUser= await userModel.findById(decodedToken._id)
    if(!requestingUser){
      throw new apiError(401,"Bad Request")
    }
-   if(requestingUser.refreshToken!==incomingRequestToken){
+   if(requestingUser.refreshToken!==incomingRefreshToken){
      throw new apiError(401,"Refresh Token is used or Expired")
    }
   const {accessToken,newRefreshToken}= await generateAccessAndRefreshTokens(requestingUser._id)
@@ -166,7 +166,12 @@ const changeCurrentPassword = asyncHandler(async(req,res)=>{
      throw new apiError(400," Invalid Password")
     }
     user.password=newPassword
-    await user.save({
+    await user.save({ 
+    // Because while updating/saving the pasword.
+    // It is compulsory to hash it , for that we have 
+    // -prehook f(x) in userModel file  but to trigger it
+    // -we need to use(".save") functionality.
+    // findAndUpdate wont trigger that hook.
       validatebeforeSave:false
     })
    return res
@@ -187,13 +192,105 @@ const getCurrentUser= asyncHandler(async(req,res)=>{
  .json(200,req.user,"current user fetched successfully")
 })
 
+const updateAccountDetail = asyncHandler(async(req,res)=>{
+ const {fullname,email} =req.body
+ if(!(fullname || email)){
+  throw new apiError(400,"All fields are required")
+ }
+  await userModel.findByIdAndUpdate(
+   req.user?._id,
+   {
+    $set:{
+      fullname,
+      email
+    }
+   },
+   {
+    new:true
+   }
+  ).select("-password")
+ return res
+ .status(200)
+ .json(
+  new apiResponse (
+    200,
+    user,
+    "account details updated"
+  )
+ )
+})
+
+const updateAvatar= asyncHandler(async(req,res)=>{
+  const avatarPath=req.file?.path // during setting up of multer do upload.single('avatr')
+  if(!avatarPath){
+    throw new apiError(400,"Avatar field is required")
+  }
+  const avatarUpload = await uploadOperation(avatarPath)
+  if(!avatarUpload.url ){
+    throw new apiError(400,"avatar-url not found")
+  }
+  const user = await userModel.findByIdAndUpdate(
+    req.user._id,
+    {
+      $set:{
+        avatar: avatarUpload.url
+      }
+    },
+    {
+      new:true
+    }
+  ).select(
+      "-password"
+    ) 
+    return res
+    .status(200)
+    .json(
+      200,
+      user,
+      "Avatar uploaded successfully"
+    )
+})
+
+const updateCoverImage = asyncHandler(async(req,res)=>{
+  const coverImagePath=req.file?.path // during setting up of multer do upload.single('avatr')
+  if(!coverImagePath){
+    throw new apiError(400,"Cover-image field is required")
+  }
+  const coverImageUpload = await uploadOperation(coverImagePath)
+  if(!coverImageUpload.url ){
+    throw new apiError(400,"Cover-image-url not found")
+  }
+  const user = await userModel.findByIdAndUpdate(
+    req.user._id,
+    {
+      $set:{
+       coverImage:coverImageUpload.url
+      }
+    },
+    {
+      new:true
+    }
+  ).select(
+      "-password"
+    ) 
+  return res
+  .status(200)
+  .json(
+    200,
+    user,
+    "cover image uploaded successfully"
+  )
+})
+
 
 export {
-changeCurrentPassword,
-refreshAccessToken,
-logInUser,
 registerUser,
-logOutUser}
-
-//"$2b$10$W1IgeZ8XSeNI4VSDDKf19.UC2E.kLe.xAyEii4okmdqL5Fnwg.i5a"
-//"$2b$10$UahOHz54.8xaUIeRQ26wnuZzxmXzpwuyqB0YhKhqxK0VHYRODAthS"
+logInUser,
+logOutUser,
+refreshAccessToken,
+changeCurrentPassword,
+getCurrentUser,
+updateAccountDetail,
+updateAvatar,
+updateCoverImage
+}

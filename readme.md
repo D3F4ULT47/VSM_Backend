@@ -53,54 +53,54 @@ Check:
 
 🕒 Watch History
 
-Track user watch history
+* Track user watch history
 
-Fetch complete watch history using optimized queries
+* Fetch complete watch history using optimized queries
 
 ⚙️ Backend & Database Design
 🧠 MongoDB + Mongoose
 
 Well-structured schemas for:
 
-Users
+* Users
 
-Subscriptions
+* Subscriptions [collections that has documents each of them contains every pair of channel(user) & subscriber(user)]
 
-Watch history
+* Watch history
 
-Relationship handling using ObjectIds
+* Relationship handling using ObjectIds
 
 🔄 Aggregation Pipelines
 
 This project heavily uses Mongoose aggregation pipelines to handle complex queries such as:
 
-Fetching subscribed channels
+* Fetching subscribed channels
 
-Calculating subscriber counts
+* Calculating subscriber counts
 
-Populating nested user/channel data
+* Populating nested user/channel data
 
 Optimizations Applied:
 
-$lookup for relational joins
+* $lookup (for relational joins)
 
-$project to limit response payload
+* $project (to limit response payload)
 
-$addFields to flatten nested data
+* $addFields (to flatten nested data)
 
 Efficient response shaping for frontend consumption
 
 🛠️ Tech Stack
 
-Backend: Node.js, Express.js
+* Backend: Node.js, Express.js
 
-Database: MongoDB
+* Database: MongoDB
 
-ODM: Mongoose
+* ODM: Mongoose
 
-Authentication: JWT (Access & Refresh tokens)
+* Authentication: JWT (Access & Refresh tokens)
 
-File Handling: Multer / Cloud storage (planned)
+* File Handling: Multer / Cloud storage (planned)
 
 🧩 Folder Structure (High Level)
 VSM_Backend/
@@ -114,12 +114,12 @@ VSM_Backend/
 
 🚀 Future Enhancements
 
-Video upload & streaming pipeline
+* Video upload & streaming pipeline
 
-Likes, comments, and community posts
+* Likes, comments, and community posts
 
-Recommendation system
+* Recommendation system
 
-Search & discovery
+* Search & discovery
 
-Analytics dashboard
+* Analytics dashboard

@@ -1,16 +1,16 @@
 🎥 VSM – Video Streaming Platform (Backend)
 
-A YouTube-inspired backend system focused on user management, subscriptions, and data aggregation using MongoDB and Mongoose.
+* A YouTube-inspired backend system focused on user management, subscriptions, and data aggregation using MongoDB and Mongoose.
 
 🚧 Project Status
 
 Under Construction
 
-Video uploading module: pending
+* Video uploading module: pending
 
-Community / engagement features: pending
+* Community / engagement features: pending
 
-Core backend architecture: implemented
+* Core backend architecture: implemented
 
 📌 Overview
 
@@ -21,13 +21,13 @@ This repository emphasizes clean backend architecture, scalable data modeling, a
 ✨ Features Implemented
 🔐 Authentication & User Management
 
-User registration
+* User registration
 
-Login / Logout
+* Login / Logout
 
-Secure session handling
+* Secure session handling
 
-Update user account details:
+* Update user account details:
 
 Avatar
 
@@ -39,17 +39,17 @@ Full name
 
 Other profile attributes
 
-📺 Channel & Subscription System
+* 📺 Channel & Subscription System
 
-View subscriber count of other users (channels)
+* View subscriber count of other users (channels)
 
-Subscribe / unsubscribe functionality
+* Subscribe / unsubscribe functionality
 
 Check:
 
-Channels the user has subscribed to
+* Channels the user has subscribed to
 
-Subscriber count for a given channel
+* Subscriber count for a given channel
 
 🕒 Watch History
 

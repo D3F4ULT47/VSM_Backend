@@ -21,4 +21,6 @@ export const verifyJWT= asyncHandler(async (req,res,next)=>{
     throw new apiError (401, error?.message || "Something Went Wrong (Tokens)")
   }
 })
+// someone  can easily hack these type of systems by having the token only
+// this way they can surpass this also can have enormous amount of info that the req.use is going to proide it to them
 

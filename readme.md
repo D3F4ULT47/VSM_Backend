@@ -1,10 +1,10 @@
-🎥 VSM – Video Streaming Platform (Backend)
+## 🎥 VSM – Video Streaming Platform (Backend)
 
 * A YouTube-inspired backend system focused on user management, subscriptions, and data aggregation using MongoDB and Mongoose.
 
-🚧 Project Status
+## 🚧 Project Status
 
-Under Construction
+**Under Developement**
 
 * Video uploading module: pending
 

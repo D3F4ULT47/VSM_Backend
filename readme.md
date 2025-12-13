@@ -12,7 +12,7 @@
 
 * Core backend architecture: implemented
 
-📌 Overview
+## 📌 Overview
 
 VSM is a backend-driven video streaming platform designed to replicate core user-centric functionalities commonly found in platforms like YouTube. The project primarily focuses on authentication, user profiles, subscriptions, watch history, and efficient data aggregation using MongoDB pipelines.
 
@@ -28,7 +28,8 @@ This repository emphasizes clean backend architecture, scalable data modeling, a
 - **File Upload Middleware:** Multer
 
 ## ✨ Features Implemented
-🔐 Authentication & User Management
+
+**(🔐 Authentication & User Management)**
 
 * User registration
 

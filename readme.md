@@ -27,7 +27,7 @@ This repository emphasizes clean backend architecture, scalable data modeling, a
 - **Media Storage:** Cloudinary (image upload & URL management)
 - **File Upload Middleware:** Multer
 
-✨ Features Implemented
+## ✨ Features Implemented
 🔐 Authentication & User Management
 
 * User registration
@@ -79,7 +79,7 @@ Well-structured schemas for:
 
 * Relationship handling using ObjectIds
 
-🔄 Aggregation Pipelines
+## 🔄 Aggregation Pipelines
 
 This project heavily uses Mongoose aggregation pipelines to handle complex queries such as:
 
@@ -100,7 +100,8 @@ Optimizations Applied:
 Efficient response shaping for frontend consumption
 
 
-🧩 Folder Structure (High Level)
+## 🧩 Folder Structure (High Level)
+ 
 VSM_Backend/
 ├── controllers/
 ├── models/

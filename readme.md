@@ -18,6 +18,15 @@ VSM is a backend-driven video streaming platform designed to replicate core user
 
 This repository emphasizes clean backend architecture, scalable data modeling, and optimized aggregation responses.
 
+## 🛠️ Tech Stack
+
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB
+- **ODM:** Mongoose
+- **Authentication:** JWT (Access & Refresh tokens)
+- **Media Storage:** Cloudinary (image upload & URL management)
+- **File Upload Middleware:** Multer
+
 ✨ Features Implemented
 🔐 Authentication & User Management
 
@@ -90,17 +99,6 @@ Optimizations Applied:
 
 Efficient response shaping for frontend consumption
 
-🛠️ Tech Stack
-
-* Backend: Node.js, Express.js
-
-* Database: MongoDB
-
-* ODM: Mongoose
-
-* Authentication: JWT (Access & Refresh tokens)
-
-* File Handling: Multer / Cloud storage (planned)
 
 🧩 Folder Structure (High Level)
 VSM_Backend/
